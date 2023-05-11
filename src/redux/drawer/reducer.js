@@ -3,7 +3,7 @@ export const namespace = "drawer";
 
 const initialState = {
   openDrawer: false,
-  children: null,
+  dataInDrawer: null,
 };
 
 const slice = createSlice({
@@ -19,6 +19,12 @@ const slice = createSlice({
       return {
         ...state,
         openDrawer: action.payload,
+      };
+    },
+    setDataInDrawer: (state, action) => {
+      return {
+        ...state,
+        dataInDrawer: action.payload,
       };
     },
   },

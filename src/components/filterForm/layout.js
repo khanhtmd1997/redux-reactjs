@@ -9,7 +9,7 @@ const { Panel } = Collapse;
 export default function LayoutFilterForm(props) {
   const {
     form,
-    onSubmitForm,
+    handleSearchForm,
     filterData,
     formLayout,
     arrayButton,
@@ -32,7 +32,7 @@ export default function LayoutFilterForm(props) {
       <Panel key={"1"}>
         <FormComponent
           form={form}
-          onSubmitForm={onSubmitForm}
+          onSubmitForm={handleSearchForm}
           initialValues={{ ...filterData }}
           formLayout={formLayout}
         >

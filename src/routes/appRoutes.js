@@ -22,6 +22,7 @@ function AppRoutes() {
           <LayoutPublicPages />
         </PublicPages>
       ),
+
       children: [
         {
           path: PATH.DASHBOARD,
@@ -39,6 +40,7 @@ function AppRoutes() {
           <LayoutPrivatePages />
         </PrivatePages>
       ),
+      action: CheckRedirect,
       children: [
         {
           path: `${PATH.ADMIN}`,
@@ -71,4 +73,7 @@ const PublicPages = (props) => {
   return !props.private ? props.children : <Navigate to={PATH.ERRORS} />;
 };
 
+const CheckRedirect = ({ params }) => {
+  console.log(params);
+};
 export default AppRoutes;

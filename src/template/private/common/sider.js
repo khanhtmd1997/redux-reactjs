@@ -1,9 +1,14 @@
 import MenuComponent from "../../../components/menu";
 import { Layout } from "antd";
 import { COMMON } from "../../../constants";
+import { useDispatch, useSelector } from "react-redux";
+import { commonSelector } from "../../../redux/common";
+import { setCollapsed } from "../../../redux/common/reducer";
 
 const { Sider } = Layout;
-export default function SiderPrivate({ collapsed, setCollapsed }) {
+export default function SiderPrivate() {
+  const { collapsed } = useSelector(commonSelector);
+  const dispatch = useDispatch();
   return (
     <Sider
       theme="light"
@@ -13,7 +18,7 @@ export default function SiderPrivate({ collapsed, setCollapsed }) {
       }}
       collapsible
       collapsed={collapsed}
-      onCollapse={(value) => setCollapsed(value)}
+      onCollapse={(value) => dispatch(setCollapsed(value))}
     >
       <MenuComponent mode={COMMON.FORMLAYOUT_VER} />
     </Sider>

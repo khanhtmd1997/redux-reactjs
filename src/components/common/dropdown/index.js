@@ -1,5 +1,5 @@
 import { DownOutlined } from "@ant-design/icons";
-import { Dropdown, Space } from "antd";
+import { Button, Dropdown, Space } from "antd";
 
 export default function DropDownComponent(props) {
   const { title, items } = props;
@@ -9,12 +9,12 @@ export default function DropDownComponent(props) {
         items,
       }}
     >
-      <a onClick={(e) => e.preventDefault()}>
+      <Button type="text" onClick={(e) => e.preventDefault()}>
         <Space>
           {title}
           <DownOutlined />
         </Space>
-      </a>
+      </Button>
     </Dropdown>
   );
 }

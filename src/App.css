@@ -36,7 +36,3 @@
     transform: rotate(360deg);
   }
 }
-
-input:-internal-autofill-selected {
-  background-color: unset !important;
-}

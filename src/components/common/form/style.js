@@ -5,9 +5,9 @@ export const ContainerForm = styled.div`
     text-align: left;
   }
 
-  .button-form {
-    text-align: right;
-  }
+  // .button-form {
+  //   text-align: right;
+  // }
 
   .button-form .close {
     margin-right: 24px;

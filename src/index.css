@@ -22,6 +22,52 @@ input:-webkit-autofill:active {
     rgb(255, 255, 255) -8px -8px 8px inset !important;
 }
 
+/*modal*/
+.ant-modal-confirm-btns .ant-btn-primary {
+  background-color: red;
+  color: #ffffff;
+}
+/*modal*/
+
+/*table*/
+
+.table-column-left {
+  text-align: left !important;
+}
+
+.table-column-right {
+  text-align: right !important;
+}
+
+.table-column-center,
+table thead tr .ant-table-column-title,
+table thead th .ant-table-column-title,
+table thead .ant-table-cell {
+  text-align: center !important;
+}
+
 .ant-table-content table tbody .ant-table-cell .ant-form-item {
   margin-bottom: 0;
+}
+/*end table*/
+
+::-webkit-scrollbar {
+  height: 10px;
+  width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #cccccc;
+  border-radius: 3rem;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

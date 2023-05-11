@@ -2,6 +2,9 @@ import { Button, Col, Form, Row } from "antd";
 import LoadingComponent from "../loading";
 import { ContainerForm } from "./style";
 import { COMMON } from "../../../constants";
+import { useCallback } from "react";
+import { commonSelector, setChangedData } from "../../../redux/common/reducer";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function FormComponent(props) {
   const {
@@ -18,8 +21,11 @@ export default function FormComponent(props) {
     buttonClass = "btn ",
     initialValues = {},
     form,
+    textAlignBtnFooter = "right",
+    data = {},
   } = props;
-
+  const dispatch = useDispatch();
+  const { isChangeData } = useSelector(commonSelector);
   const formItemLayout =
     formLayout === COMMON.FORMLAYOUT_HORI
       ? {
@@ -31,23 +37,42 @@ export default function FormComponent(props) {
           },
         }
       : null;
+
+  const handleFieldsChange = useCallback(
+    (changedFields) => {
+      console.log(changedFields);
+      if (data && data[changedFields[0].name] === changedFields[0].value) {
+        dispatch(setChangedData(false));
+      } else dispatch(setChangedData(true));
+    },
+    [data, dispatch]
+  );
+  console.log(4444, isChangeData);
   return (
     <LoadingComponent loading={loading}>
       <ContainerForm className="container-form">
         {/*formLayout =  horizontal | vertical | inline */}
         <Form
+          onFieldsChange={handleFieldsChange}
           scrollToFirstError
           {...formItemLayout}
           form={form}
           onFinish={onSubmitForm}
           autoComplete="off"
           layout={formLayout}
-          initialValues={initialValues}
+          initialValues={{
+            ...initialValues,
+          }}
         >
           {children}
 
           {isButtonFooter ? (
-            <Row gutter={24} align={"middle"} className="button-form">
+            <Row
+              gutter={24}
+              align={"middle"}
+              className="button-form"
+              style={{ textAlign: textAlignBtnFooter }}
+            >
               <Col span={24}>
                 {handleClose ? (
                   <Button

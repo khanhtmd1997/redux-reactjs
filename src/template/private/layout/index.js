@@ -8,11 +8,10 @@ import FooterPrivate from "../common/footer";
 const { Header, Footer, Content } = Layout;
 
 export default function LayoutTemplate(props) {
-  const { collapsed, setCollapsed, headerStyle, contentStyle, footerStyle } =
-    props;
+  const { headerStyle, contentStyle, footerStyle } = props;
   return (
     <Layout>
-      <SiderTemplate collapsed={collapsed} setCollapsed={setCollapsed} />
+      <SiderTemplate />
       <Layout>
         <Header style={headerStyle}>
           <InfoComponent />

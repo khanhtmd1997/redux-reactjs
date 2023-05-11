@@ -4,7 +4,7 @@ import LayoutFilterForm from "./layout";
 export default function FilterFormComponent(props) {
   const {
     form,
-    onSubmitForm,
+    handleSearchForm,
     filterData,
     formLayout,
     arrayButton,
@@ -22,7 +22,7 @@ export default function FilterFormComponent(props) {
   return (
     <LayoutFilterForm
       form={form}
-      onSubmitForm={onSubmitForm}
+      handleSearchForm={handleSearchForm}
       filterData={filterData}
       formLayout={formLayout}
       arrayButton={arrayButton}

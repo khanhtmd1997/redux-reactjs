@@ -8,7 +8,7 @@ export default function TestTemplate(props) {
   const {
     form,
     form1,
-    onSubmitForm,
+    handleSearchForm,
     filterData,
     totalData,
     formLayout,
@@ -21,7 +21,7 @@ export default function TestTemplate(props) {
     columns,
     removeKey,
     setRemoveKey,
-    setNewDataSource,
+    setDataSource,
     onChangePagination,
   } = props;
 
@@ -29,7 +29,7 @@ export default function TestTemplate(props) {
     <Fragment>
       <FilterFormComponent
         form={form}
-        onSubmitForm={onSubmitForm}
+        handleSearchForm={handleSearchForm}
         filterData={filterData}
         formLayout={formLayout}
         arrayButton={arrayButton}
@@ -43,6 +43,7 @@ export default function TestTemplate(props) {
           </Form.Item>
         </Col>
       </FilterFormComponent>
+
       <FormComponent
         form={form1}
         initialValues={{
@@ -55,11 +56,13 @@ export default function TestTemplate(props) {
           columns={columns}
           removeKey={removeKey}
           setRemoveKey={setRemoveKey}
-          setNewDataSource={setNewDataSource}
+          setDataSource={setDataSource}
           pagination={filterData}
           totalData={totalData}
           onChangePagination={onChangePagination}
           headerTable="Test table"
+          isEditTable={false}
+          isSelectType={false}
         />
       </FormComponent>
     </Fragment>

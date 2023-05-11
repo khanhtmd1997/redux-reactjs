@@ -46,7 +46,7 @@ export default function TableComponent(props) {
     isEditTable = false,
     removeKey = null,
     setRemoveKey,
-    setNewDataSource,
+    setDataSource,
     pagination = {},
     totalData = 0,
     isNotPagination = null,
@@ -89,7 +89,7 @@ export default function TableComponent(props) {
   useEffect(() => {
     if (removeKey !== null) {
       const newData = data.filter((item) => item.key !== removeKey);
-      setNewDataSource(newData);
+      setDataSource(newData);
       setCount(newData.length);
     }
     setRemoveKey(null);
@@ -106,7 +106,7 @@ export default function TableComponent(props) {
     const newData = {
       key: data[data.length - 1].key + 1,
     };
-    setNewDataSource([...data, newData]);
+    setDataSource([...data, newData]);
     setCount(count + 1);
   };
 
@@ -148,12 +148,14 @@ export default function TableComponent(props) {
 
           <Table
             rowSelection={
-              selectionType
-                ? {
-                    ...rowSelection,
-                    type: selectionType,
-                  }
-                : rowSelection
+              rowSelection
+                ? selectionType
+                  ? {
+                      ...rowSelection,
+                      type: selectionType,
+                    }
+                  : rowSelection
+                : null
             }
             columns={columns}
             dataSource={data}

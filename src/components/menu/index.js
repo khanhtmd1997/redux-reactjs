@@ -8,9 +8,12 @@ import { Image, Menu } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { COMMON } from "../../constants";
+import { useDispatch, useSelector } from "react-redux";
+import { commonSelector } from "../../redux/common";
+import { confirmChangeData } from "../../ultis/function";
 const items = [
-  getItem("Dashboard", "/", <HomeOutlined />),
-  getItem("Detail", "/admin/users", <HomeOutlined />),
+  getItem("Dashboard", "/admin", <HomeOutlined />),
+  getItem("Detail", "/admin/test", <HomeOutlined />),
   getItem("Navigation One", "sub1", <MailOutlined />, [
     getItem("Option 1", "1"),
     getItem("Option 2", "2"),
@@ -42,13 +45,13 @@ function getItem(label, key, icon, children, type, disabled) {
 export default function MenuComponent(props) {
   const { mode = COMMON.FORMLAYOUT_HORI } = props;
   const [current, setCurrent] = useState("/");
-
+  const { isChangeData } = useSelector(commonSelector);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  //
+  //click menu
   const onClick = (e) => {
-    setCurrent(e.key);
-    navigate(e.key);
+    confirmChangeData(isChangeData, dispatch, navigate, e.key, setCurrent);
   };
 
   return (
