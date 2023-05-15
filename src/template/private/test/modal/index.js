@@ -13,7 +13,6 @@ export default function CreateEditFormDrawer(props) {
       isButtonFooter
       handleClose={handleClose}
       textAlignBtnFooter={"center"}
-      data={data}
     >
       <Form.Item name="name" label="Name">
         <Input />

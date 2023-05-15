@@ -37,10 +37,9 @@ function AppRoutes() {
     {
       element: (
         <PrivatePages isAuth={true}>
-          <LayoutPrivatePages />
+          <LayoutPrivatePages layoutAuth />
         </PrivatePages>
       ),
-      action: CheckRedirect,
       children: [
         {
           path: `${PATH.ADMIN}`,
@@ -71,9 +70,5 @@ const PrivatePages = (props) => {
 
 const PublicPages = (props) => {
   return !props.private ? props.children : <Navigate to={PATH.ERRORS} />;
-};
-
-const CheckRedirect = ({ params }) => {
-  console.log(params);
 };
 export default AppRoutes;

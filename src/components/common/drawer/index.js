@@ -1,9 +1,9 @@
-import { Drawer, Modal } from "antd";
+import { Drawer } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { drawerSelector, setDrawer } from "../../../redux/drawer/reducer";
-import { WarningOutlined } from "@ant-design/icons";
-import { commonSelector, setChangedData } from "../../../redux/common/reducer";
+import { drawerSelector } from "../../../redux/drawer/reducer";
+import { commonSelector } from "../../../redux/common/reducer";
+import { confirmChangeData } from "../../../ultis/function";
 const DrawerComponent = (props) => {
   const {
     title = "Basic Drawer",
@@ -16,27 +16,10 @@ const DrawerComponent = (props) => {
   const { openDrawer } = useSelector(drawerSelector);
   const { isChangeData } = useSelector(commonSelector);
   const dispatch = useDispatch();
-  console.log(isChangeData);
+
   //close drawer
   const onClose = () => {
-    if (isChangeData) {
-      Modal.confirm({
-        title: "Confirm",
-        icon: <WarningOutlined />,
-        content: "Data is change. You sure close it?",
-        okText: "Yes",
-        cancelText: "Close",
-        onOk: () => {
-          dispatch(setDrawer(false));
-          dispatch(setChangedData(false));
-          return null;
-        },
-        onCancel: () => {},
-      });
-    } else {
-      dispatch(setDrawer(false));
-      dispatch(setChangedData(false));
-    }
+    confirmChangeData(isChangeData, dispatch);
   };
   //end close drawer
 

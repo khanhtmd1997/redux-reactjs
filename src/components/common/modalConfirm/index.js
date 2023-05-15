@@ -7,7 +7,7 @@ export default function ModalConfirmComponent(props) {
   const {
     title = "Confirm",
     icon = <ExclamationCircleOutlined />,
-    content = "",
+    content = "Do you want to delete it?",
     okText = "Ok",
     cancelText = COMMON.BUTTON_TEXTCANCEL,
     buttonText = COMMON.BUTTON_TEXTCONFIRM,
@@ -15,6 +15,9 @@ export default function ModalConfirmComponent(props) {
     onCancel = () => {},
     isIcon = false,
     iconText = "",
+    danger = false,
+    buttonIcon = false,
+    isNotTextBtn = false,
   } = props;
   const [modal, contextHolder] = Modal.useModal();
   const confirm = () => {
@@ -33,7 +36,6 @@ export default function ModalConfirmComponent(props) {
     switch (iconText) {
       case "logout":
         return <LogoutOutlined />;
-
       default:
         return "";
     }
@@ -42,8 +44,13 @@ export default function ModalConfirmComponent(props) {
     <>
       <Space>
         {isIcon ? renderIcon() : null}
-        <Button type="link" onClick={confirm}>
-          {buttonText}
+        <Button
+          type="link"
+          onClick={confirm}
+          icon={buttonIcon ? buttonIcon : null}
+          danger={danger}
+        >
+          {isNotTextBtn ? null : buttonText}
         </Button>
       </Space>
       {contextHolder}

@@ -6,7 +6,8 @@ import { commonSelector } from "../../../redux/common";
 import { setCollapsed } from "../../../redux/common/reducer";
 
 const { Sider } = Layout;
-export default function SiderPrivate() {
+export default function SiderPrivate(props) {
+  const { layoutAuth } = props;
   const { collapsed } = useSelector(commonSelector);
   const dispatch = useDispatch();
   return (
@@ -20,7 +21,7 @@ export default function SiderPrivate() {
       collapsed={collapsed}
       onCollapse={(value) => dispatch(setCollapsed(value))}
     >
-      <MenuComponent mode={COMMON.FORMLAYOUT_VER} />
+      <MenuComponent mode={COMMON.FORMLAYOUT_VER} layoutAuth={layoutAuth} />
     </Sider>
   );
 }

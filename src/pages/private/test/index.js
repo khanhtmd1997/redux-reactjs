@@ -1,18 +1,15 @@
-import { Button, Form, Modal } from "antd";
+import { Button, Form } from "antd";
 import TestTemplate from "../../../template/private/test";
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { COMMON } from "../../../constants";
 import { useDispatch, useSelector } from "react-redux";
 import { setDrawer } from "../../../redux/drawer/reducer";
 import DrawerComponent from "../../../components/common/drawer";
-import { handlePagination } from "../../../ultis/function";
-import {
-  DeleteOutlined,
-  EditOutlined,
-  WarningOutlined,
-} from "@ant-design/icons";
+import { confirmChangeData, handlePagination } from "../../../ultis/function";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import CreateEditFormDrawer from "../../../template/private/test/modal";
-import { commonSelector, setChangedData } from "../../../redux/common/reducer";
+import { commonSelector } from "../../../redux/common/reducer";
+import ModalConfirmComponent from "../../../components/common/modalConfirm";
 
 // const dataWithEdit = [
 //   {
@@ -89,7 +86,7 @@ export default function TestPages() {
   //state table
   const [form1] = Form.useForm();
   const [dataSource, setDataSource] = useState(data);
-  const [totalData, setTotalData] = useState(0);
+  const [totalData] = useState(0);
   const [removeKey, setRemoveKey] = useState(null);
 
   //end state table
@@ -257,12 +254,23 @@ export default function TestPages() {
             icon={<EditOutlined />}
             onClick={() => handleOpenDrawer(row)}
           />
-          <Button
+          {/* button remove key edit table */}
+          {/* <Button
             type="text"
             icon={<DeleteOutlined />}
             danger
             onClick={() => setRemoveKey(row.key)}
+          /> */}
+          {/* button remove key edit table */}
+          {/* button remove data table */}
+          <ModalConfirmComponent
+            // type="text"
+            isNotTextBtn
+            danger
+            buttonIcon={<DeleteOutlined />}
+            onOk={() => handleDeleteData(row.key)}
           />
+          {/* button remove data table  */}
         </div>
       ),
       width: "15%",
@@ -361,6 +369,7 @@ export default function TestPages() {
   const handleOpenDrawer = (data) => {
     if (data && data.key) {
       setDetail(data);
+      form2.setFieldsValue({ ...data });
     } else setDetail({});
     dispatch(setDrawer(true));
   };
@@ -378,25 +387,14 @@ export default function TestPages() {
   //
 
   //
+  const handleDeleteData = (id) => {
+    console.log("call api delete", id);
+  };
+  //
+
+  //
   const handleClose = () => {
-    if (isChangeData) {
-      Modal.confirm({
-        title: "Confirm",
-        icon: <WarningOutlined />,
-        content: "Data is change. You sure close it?",
-        okText: "Yes",
-        cancelText: "Close",
-        onOk: () => {
-          dispatch(setDrawer(false));
-          dispatch(setChangedData(false));
-          return null;
-        },
-        onCancel: () => {},
-      });
-    } else {
-      dispatch(setDrawer(false));
-      dispatch(setChangedData(false));
-    }
+    confirmChangeData(isChangeData, dispatch);
   };
   //
 

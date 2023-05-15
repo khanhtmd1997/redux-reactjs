@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { Layout } from "antd";
-import SiderTemplate from "../common/sider";
+import SidesTemplate from "../common/sides";
 import InfoComponent from "../../../components/info";
 import BreadcrumbComponent from "../../../components/common/breadcrumb";
 import FooterPrivate from "../common/footer";
@@ -8,10 +8,10 @@ import FooterPrivate from "../common/footer";
 const { Header, Footer, Content } = Layout;
 
 export default function LayoutTemplate(props) {
-  const { headerStyle, contentStyle, footerStyle } = props;
+  const { headerStyle, contentStyle, footerStyle, layoutAuth } = props;
   return (
     <Layout>
-      <SiderTemplate />
+      <SidesTemplate layoutAuth={layoutAuth} />
       <Layout>
         <Header style={headerStyle}>
           <InfoComponent />

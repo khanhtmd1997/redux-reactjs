@@ -4,6 +4,7 @@ export const namespace = "common";
 const initialState = {
   collapsed: false,
   isChangeData: false,
+  currentPath: "/",
 };
 
 const slice = createSlice({
@@ -27,10 +28,17 @@ const slice = createSlice({
         isChangeData: action.payload,
       };
     },
+    setCurrentPath: (state, action) => {
+      return {
+        ...state,
+        currentPath: action.payload,
+      };
+    },
   },
 });
 export const reducer = slice.reducer;
 
-export const { getCollapsed, setCollapsed, setChangedData } = slice.actions;
+export const { getCollapsed, setCollapsed, setChangedData, setCurrentPath } =
+  slice.actions;
 
 export const commonSelector = (state) => state[namespace];
