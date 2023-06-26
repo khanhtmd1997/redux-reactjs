@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const CollapseContainer = styled(Collapse)`
   width: 100%;
-  // background: #fff;
+  background-color: unset;
   border: none;
   border-radius: unset;
   margin-bottom: 24px;
@@ -12,6 +12,10 @@ export const CollapseContainer = styled(Collapse)`
     padding: 4px !important;
   }
 
+  .ant-collapse-item {
+    border-radius: unset !important;
+    border-bottom: unset;
+  }
   .ant-collapse-expand-icon {
     color: #405cab !important;
     font-weight: 900;

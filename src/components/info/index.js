@@ -1,97 +1,35 @@
-import { Button, Form } from "antd";
+import { Button, Form, Modal } from "antd";
 import LanguageComponent from "../common/changeLanguage";
 import DropDownComponent from "../common/dropdown";
-import { KeyOutlined, UserOutlined } from "@ant-design/icons";
+import { KeyOutlined, UserOutlined, WarningOutlined } from "@ant-design/icons";
 import { useCallback, useState } from "react";
 import ModalConfirmComponent from "../common/modalConfirm";
 import ModalComponent from "../common/modal";
 import { COMMON } from "../../constants";
 import { Container } from "./style";
-import FormInfoComponent from "./form";
+import ModalInfoComponent from "./modal";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { commonSelector, setChangedData } from "../../redux/common/reducer";
+import { setDrawer } from "../../redux/drawer/reducer";
+import EditProfileTemplate from "./modal/edit-profile";
+import EditPasswordTemplate from "./modal/edit-password";
 
-const fieldInfo = [
-  {
-    id: 1,
-    name: "email",
-    label: "Email",
-    placeholder: "Enter Email",
-    isLabel: true,
-    type: "email",
-    valid: {
-      required: true,
-    },
-  },
-  {
-    id: 2,
-    name: "fullName",
-    label: "Full name",
-    placeholder: "Enter Full name",
-    isLabel: true,
-    type: "text",
-    valid: {
-      required: true,
-    },
-  },
-  {
-    id: 3,
-    name: "birthDay",
-    label: "BirthDay",
-    placeholder: "Enter BirthDay",
-    isLabel: true,
-    type: "date",
-    valid: {
-      required: false,
-    },
-  },
-];
-
-const fieldPassword = [
-  {
-    id: 1,
-    name: "oldPassword",
-    label: "Old Password",
-    placeholder: "Enter Old Password",
-    isLabel: true,
-    type: "password",
-    valid: {
-      required: true,
-      min: 8,
-    },
-  },
-  {
-    id: 2,
-    name: "newPassword",
-    label: "New Password",
-    placeholder: "Enter New Password",
-    isLabel: true,
-    type: "password",
-    valid: {
-      required: true,
-      min: 8,
-    },
-  },
-  {
-    id: 3,
-    name: "confirmPassword",
-    label: "Confirm Password",
-    placeholder: "Enter Confirm Password",
-    isLabel: true,
-    type: "password",
-    required: true,
-    valid: {
-      required: true,
-    },
-  },
-];
+const initData = {
+  email: "khanh@gmail.com",
+  fullName: "Nguyễn Văn Khánh",
+};
 
 export default function InfoComponent() {
   const [form] = Form.useForm();
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [stepModal, setStepModal] = useState(COMMON.ZERO);
+  const [stepModal, setStepModal] = useState(COMMON.ONE);
   const [loading] = useState(false);
-  const [fieldFormInfo, setFieldFormInfo] = useState(fieldInfo);
+  const { isChangeData } = useSelector(commonSelector);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  //item dropdown
   const items = [
     {
       key: "1",
@@ -125,25 +63,67 @@ export default function InfoComponent() {
       danger: true,
     },
   ];
+  //end item dropdown
 
-  //
+  //open modal set data
   const handleOpenModal = useCallback(
     (step) => {
       setIsOpenModal(!isOpenModal);
       setStepModal(step);
-      if (step === COMMON.ONE) setFieldFormInfo(fieldInfo);
-      else setFieldFormInfo(fieldPassword);
     },
     [isOpenModal]
   );
+  //end open modal set data
 
-  //
-  const handleCloseModal = () => {
-    setIsOpenModal(false);
-    setStepModal(COMMON.ZERO);
-  };
+  //close modal
+  const handleCloseModal = useCallback(() => {
+    if (isChangeData) {
+      Modal.confirm({
+        title: "Confirm",
+        icon: <WarningOutlined />,
+        content: "Data is change. You sure close it?",
+        okText: "Yes",
+        cancelText: "Close",
+        onOk: () => {
+          dispatch(setDrawer(false));
+          dispatch(setChangedData(false));
+          setIsOpenModal(false);
+          setStepModal(COMMON.ZERO);
+          form.setFieldsValue(initData);
+          return null;
+        },
+        onCancel: () => {},
+      });
+    } else {
+      dispatch(setDrawer(false));
+      dispatch(setChangedData(false));
+      setIsOpenModal(false);
+      setStepModal(COMMON.ZERO);
+      form.setFieldsValue(initData);
+    }
+  }, [dispatch, form, isChangeData]);
+  //end close modal
 
-  //
+  //submit form
+  const handleSubmitForm = useCallback(
+    (values) => {
+      if (stepModal === COMMON.ONE) {
+        console.log("call api edit profile", values);
+      } else console.log("call api edit password", values);
+    },
+    [stepModal]
+  );
+  //end submit form
+
+  //render content form
+  const contentForm = useCallback(() => {
+    if (stepModal === COMMON.ONE) {
+      return <EditProfileTemplate />;
+    } else return <EditPasswordTemplate />;
+  }, [stepModal]);
+  //end render content form
+
+  //show popup
   const openModal = useCallback(() => {
     return (
       isOpenModal && (
@@ -154,28 +134,37 @@ export default function InfoComponent() {
           handleCancel={handleCloseModal}
           isFooter={false}
         >
-          <FormInfoComponent
+          <ModalInfoComponent
             stepModal={stepModal}
             form={form}
             loading={loading}
             handleSubmitForm={handleSubmitForm}
             handleCloseModal={handleCloseModal}
-            fieldFormInfo={fieldFormInfo}
+            contentForm={contentForm}
+            data={initData}
+            initialValues={initData}
           />
         </ModalComponent>
       )
     );
-  }, [isOpenModal, stepModal, fieldFormInfo, handleOpenModal, loading, form]);
+  }, [
+    isOpenModal,
+    stepModal,
+    handleOpenModal,
+    handleCloseModal,
+    form,
+    loading,
+    handleSubmitForm,
+    contentForm,
+  ]);
+  //end show popup
 
-  //
-  const handleSubmitForm = (values) => {
-    console.log(123, values);
-  };
-
-  //
+  //logout
   const handleLogout = () => {
     navigate("/login");
   };
+  //end logout
+
   return (
     // <Container>
     <Container className="info">

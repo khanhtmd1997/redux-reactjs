@@ -110,7 +110,7 @@ export default function MenuComponent(props) {
       </div>
     );
   }, [collapsed, current, menu, mode, onClick]);
-  //endrender menu
+  //end render menu
 
   return <Fragment>{renderMenu()}</Fragment>;
 }

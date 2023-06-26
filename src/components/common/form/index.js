@@ -1,10 +1,8 @@
-import { Button, Col, Form, Row } from "antd";
-import LoadingComponent from "../loading";
-import { ContainerForm } from "./style";
 import { COMMON } from "../../../constants";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { setChangedData } from "../../../redux/common/reducer";
 import { useDispatch } from "react-redux";
+import Layout from "./layout";
 
 export default function FormComponent(props) {
   const {
@@ -25,7 +23,7 @@ export default function FormComponent(props) {
     data = {},
   } = props;
   const dispatch = useDispatch();
-
+  const [disabledBtnForm, setDisabledBtnForm] = useState(false);
   const formItemLayout =
     formLayout === COMMON.FORMLAYOUT_HORI
       ? {
@@ -38,62 +36,38 @@ export default function FormComponent(props) {
         }
       : null;
 
+  //change field form
   const handleFieldsChange = useCallback(
     (changedFields) => {
-      if (data && data[changedFields[0].name] === changedFields[0].value) {
+      console.log(changedFields);
+      if (data && data[changedFields[0]?.name] === changedFields[0]?.value) {
         dispatch(setChangedData(false));
       } else dispatch(setChangedData(true));
+
+      if (changedFields[0]?.errors?.length > 0) {
+        setDisabledBtnForm(true);
+      } else setDisabledBtnForm(false);
     },
     [data, dispatch]
   );
-
+  //end change field form
   return (
-    <LoadingComponent loading={loading}>
-      <ContainerForm className="container-form">
-        {/*formLayout =  horizontal | vertical | inline */}
-        <Form
-          onFieldsChange={handleFieldsChange}
-          scrollToFirstError
-          {...formItemLayout}
-          form={form}
-          onFinish={onSubmitForm}
-          autoComplete="off"
-          layout={formLayout}
-          initialValues={{
-            ...initialValues,
-          }}
-        >
-          {children}
-
-          {isButtonFooter ? (
-            <Row
-              gutter={24}
-              align={"middle"}
-              className="button-form"
-              style={{ textAlign: textAlignBtnFooter }}
-            >
-              <Col span={24}>
-                {handleClose ? (
-                  <Button
-                    type="default"
-                    onClick={() => handleClose()}
-                    className="close"
-                  >
-                    {textButtonClose ? textButtonClose : "Close"}
-                  </Button>
-                ) : null}
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  className={buttonClass}
-                >
-                  {textButton ? textButton : "Submit"}
-                </Button>
-              </Col>
-            </Row>
-          ) : null}
-        </Form>
-      </ContainerForm>
-    </LoadingComponent>
+    <Layout
+      loading={loading}
+      handleFieldsChange={handleFieldsChange}
+      formItemLayout={formItemLayout}
+      form={form}
+      onSubmitForm={onSubmitForm}
+      formLayout={formLayout}
+      initialValues={initialValues}
+      children={children}
+      isButtonFooter={isButtonFooter}
+      textAlignBtnFooter={textAlignBtnFooter}
+      handleClose={handleClose}
+      textButtonClose={textButtonClose}
+      buttonClass={buttonClass}
+      disabledBtnForm={disabledBtnForm}
+      textButton={textButton}
+    />
   );
 }

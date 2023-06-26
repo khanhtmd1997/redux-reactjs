@@ -4,14 +4,27 @@ import ForgotPasswordTemplate from "../../../template/public/login/forgot";
 import RegisterTemplate from "../../../template/public/login/register";
 import LoginTemplate from "../../../template/public/login";
 import { COMMON } from "../../../constants";
+import { Form } from "antd";
 export default function Index() {
+  const [step, setStep] = useState(1);
+  const [form] = Form.useForm();
+  //submit form
   const onSubmitForm = (values) => {
     console.log(values);
+    console.log(step);
+    if (step === COMMON.TWO) {
+      console.log("call api send email");
+      setStep(COMMON.ONE);
+    } else if (step === COMMON.THREE) {
+      console.log("call api register");
+      setStep(COMMON.ONE);
+    } else {
+      console.log("call api login");
+    }
   };
+  //end submit form
 
-  const [step, setStep] = useState(1);
-
-  //
+  //render template by step
   const renderStep = useCallback(() => {
     switch (step) {
       case COMMON.TWO:
@@ -22,6 +35,7 @@ export default function Index() {
         return <LoginTemplate setStep={setStep} />;
     }
   }, [step]);
+  //end render template by step
 
   return (
     <LoginPages
@@ -29,6 +43,7 @@ export default function Index() {
       onSubmitForm={onSubmitForm}
       step={step}
       setStep={setStep}
+      form={form}
     />
   );
 }

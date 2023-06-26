@@ -1,7 +1,8 @@
 import { ExclamationCircleOutlined, LogoutOutlined } from "@ant-design/icons";
-import { Button, Modal, Space } from "antd";
+import { Modal } from "antd";
 import { COMMON } from "../../../constants";
 import { useCallback } from "react";
+import Layout from "./layout";
 
 export default function ModalConfirmComponent(props) {
   const {
@@ -32,6 +33,7 @@ export default function ModalConfirmComponent(props) {
     });
   };
 
+  //render icon
   const renderIcon = useCallback(() => {
     switch (iconText) {
       case "logout":
@@ -40,20 +42,18 @@ export default function ModalConfirmComponent(props) {
         return "";
     }
   }, [iconText]);
+  //end render icon
+
   return (
-    <>
-      <Space>
-        {isIcon ? renderIcon() : null}
-        <Button
-          type="link"
-          onClick={confirm}
-          icon={buttonIcon ? buttonIcon : null}
-          danger={danger}
-        >
-          {isNotTextBtn ? null : buttonText}
-        </Button>
-      </Space>
-      {contextHolder}
-    </>
+    <Layout
+      isIcon={isIcon}
+      renderIcon={renderIcon}
+      confirm={confirm}
+      buttonIcon={buttonIcon}
+      danger={danger}
+      buttonText={buttonText}
+      isNotTextBtn={isNotTextBtn}
+      contextHolder={contextHolder}
+    />
   );
 }

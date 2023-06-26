@@ -2,9 +2,9 @@ import localeVN from "antd/es/date-picker/locale/vi_VN";
 import localeEn from "antd/es/date-picker/locale/en_US";
 import { useSelector } from "react-redux";
 import { languageSelector } from "../../../redux/language";
-import { Container } from "./style";
 import { COMMON } from "../../../constants";
-import { useCallback, useEffect } from "react";
+import { Fragment, useCallback, useEffect } from "react";
+import Layout from "./layout";
 export default function DatePickerComponent(props) {
   const {
     defaultValue,
@@ -13,6 +13,7 @@ export default function DatePickerComponent(props) {
     inputReadOnly = false,
     picker = COMMON.TEXT_DATE,
     allowClear = false,
+    placeholder = "",
   } = props;
 
   const { langDefault } = useSelector(languageSelector);
@@ -25,11 +26,14 @@ export default function DatePickerComponent(props) {
     // eslint-disable-next-line
   }, []);
 
-  const handleChangeDate = (date, dateString) => {
-    form.setFieldsValue({
-      [formKey]: dateString,
-    });
-  };
+  const handleChangeDate = useCallback(
+    (date, dateString) => {
+      form.setFieldsValue({
+        [formKey]: dateString,
+      });
+    },
+    [form, formKey]
+  );
 
   //type format date
   const renderFormatDate = useCallback(() => {
@@ -45,14 +49,29 @@ export default function DatePickerComponent(props) {
     }
   }, [picker]);
 
-  return (
-    <Container
-      format={renderFormatDate()}
-      locale={langDefault === COMMON.VI ? localeVN : localeEn}
-      defaultValue={defaultValue}
-      onChange={handleChangeDate}
-      disabled={inputReadOnly}
-      allowClear={allowClear}
-    ></Container>
-  );
+  const renderLayout = useCallback(() => {
+    return (
+      <Layout
+        renderFormatDate={renderFormatDate}
+        langDefault={langDefault}
+        defaultValue={defaultValue}
+        handleChangeDate={handleChangeDate}
+        inputReadOnly={inputReadOnly}
+        allowClear={allowClear}
+        placeholder={placeholder}
+        localeEn={localeEn}
+        localeVN={localeVN}
+      />
+    );
+  }, [
+    allowClear,
+    defaultValue,
+    handleChangeDate,
+    inputReadOnly,
+    langDefault,
+    placeholder,
+    renderFormatDate,
+  ]);
+
+  return <Fragment>{renderLayout()}</Fragment>;
 }

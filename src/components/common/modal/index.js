@@ -1,4 +1,4 @@
-import { Modal } from "antd";
+import Layout from "./layout";
 
 export default function ModalComponent(props) {
   const {
@@ -12,14 +12,14 @@ export default function ModalComponent(props) {
   } = props;
 
   return (
-    <Modal
+    <Layout
       title={title}
-      open={openModal}
-      onOk={handleOk}
-      onCancel={handleCancel}
-      footer={isFooter ? [customFooter] : null}
-    >
-      {children}
-    </Modal>
+      openModal={openModal}
+      handleOk={handleOk}
+      handleCancel={handleCancel}
+      isFooter={isFooter}
+      customFooter={customFooter}
+      children={children}
+    />
   );
 }

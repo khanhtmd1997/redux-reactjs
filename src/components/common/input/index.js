@@ -1,9 +1,10 @@
 import { Input, InputNumber } from "antd";
-import { Fragment } from "react";
 import { useCallback } from "react";
+import Layout from "./layout";
 // import styled from "styled-components";
 
 export default function InputComponent(props) {
+  //
   const renderInputType = useCallback(() => {
     switch (props.type) {
       case "textarea":
@@ -16,7 +17,7 @@ export default function InputComponent(props) {
         return <Input {...props} />;
     }
   }, [props]);
-  return <Fragment>{renderInputType()}</Fragment>;
+  return <Layout renderInputType={renderInputType} />;
 }
 
 // const InputContainer = styled(Input)`

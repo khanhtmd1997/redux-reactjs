@@ -1,5 +1,13 @@
-import ErrorTemplate from "../../template/public/error";
+import { useNavigate } from "react-router-dom";
+import ErrorTemplate from "../../template/error";
 
 export default function ErrorPages() {
-  return <ErrorTemplate />;
+  const navigate = useNavigate();
+
+  //click redirect home
+  const onClickHome = () => {
+    navigate("/");
+  };
+  //end click redirect home
+  return <ErrorTemplate onClickHome={onClickHome} />;
 }

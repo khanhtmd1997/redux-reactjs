@@ -1,20 +1,6 @@
-import { DownOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Space } from "antd";
+import Layout from "./layout";
 
 export default function DropDownComponent(props) {
   const { title, items } = props;
-  return (
-    <Dropdown
-      menu={{
-        items,
-      }}
-    >
-      <Button type="text" onClick={(e) => e.preventDefault()}>
-        <Space>
-          {title}
-          <DownOutlined />
-        </Space>
-      </Button>
-    </Dropdown>
-  );
+  return <Layout title={title} items={items} />;
 }

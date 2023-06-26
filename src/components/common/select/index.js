@@ -1,7 +1,5 @@
-import { Select } from "antd";
 import { useEffect, useState } from "react";
-
-const { Option } = Select;
+import Layout from "./layout";
 
 export default function SelectComponent(props) {
   const {
@@ -18,6 +16,7 @@ export default function SelectComponent(props) {
   } = props;
   const [valueChange, setValueChange] = useState(defaultValue);
 
+  //set form field
   useEffect(() => {
     if (form) {
       form.setFieldsValue({
@@ -25,31 +24,26 @@ export default function SelectComponent(props) {
       });
     }
   }, [form, valueChange, formKey]);
+  //end set form field
 
+  //change select
   const handleChange = (value) => {
     setValueChange(value);
     if (setValue) setValue(value);
   };
+  //end change select
+
   return (
-    <Select
-      onChange={handleChange}
+    <Layout
+      handleChange={handleChange}
       allowClear={allowClear}
       defaultValue={defaultValue}
       mode={mode}
       showSearch={showSearch}
-      optionFilterProp="children"
-      filterOption={(input, option) =>
-        (option?.children ?? "").toLowerCase().includes(input.toLowerCase())
-      }
       placeholder={placeholder}
-      notFoundContent={<div>Not Content Data</div>}
-    >
-      {data &&
-        data.map((el, i) => (
-          <Option key={i} value={el?.value ? el.value : el[formKey]}>
-            {el?.label ? el.label : el?.name ? el.name : el[formName]}
-          </Option>
-        ))}
-    </Select>
+      data={data}
+      formKey={formKey}
+      formName={formName}
+    />
   );
 }

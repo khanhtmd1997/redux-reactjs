@@ -1,11 +1,8 @@
-import { Image, Select } from "antd";
 import i18next from "i18next";
-import { LanguageSelect } from "./style";
 import { useDispatch, useSelector } from "react-redux";
 import { languageSelector } from "../../../redux/language";
 import { setLang } from "../../../redux/language/reducer";
-
-const { Option } = Select;
+import Layout from "./layout";
 
 const arrayLanguage = [
   {
@@ -31,34 +28,10 @@ export default function LanguageComponent() {
   };
 
   return (
-    <LanguageSelect onChange={handleChangeLanguage} defaultValue={langDefault}>
-      {arrayLanguage.map((el, i) => (
-        <Option key={i} value={el.value}>
-          <div
-            style={{
-              display: "flex",
-            }}
-          >
-            <div
-              style={{
-                marginRight: "8px",
-                marginTop: "-1px",
-              }}
-            >
-              <Image
-                src={el.flag}
-                alt=""
-                preview={false}
-                style={{
-                  width: 24,
-                  height: 24,
-                }}
-              />
-            </div>
-            <div>{el.label}</div>
-          </div>
-        </Option>
-      ))}
-    </LanguageSelect>
+    <Layout
+      handleChangeLanguage={handleChangeLanguage}
+      langDefault={langDefault}
+      arrayLanguage={arrayLanguage}
+    />
   );
 }

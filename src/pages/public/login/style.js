@@ -45,8 +45,8 @@ export const Container = styled.div`
   .wrapper .form-field input {
     width: 100%;
     display: block;
-    border: none;
-    outline: none;
+    // border: none;
+    // outline: none;
     background: none;
     // font-size: 1.2rem;
     color: #666;
@@ -98,8 +98,13 @@ export const Container = styled.div`
 
   .wrapper .form-bottom {
     position: absolute;
-    bottom: 30px;
+    bottom: 10px;
     right: 30px;
+  }
+
+  .ant-form-item-explain-error {
+    margin-top: 4px;
+    margin-bottom: 4px;
   }
 
   @media (max-width: 380px) {

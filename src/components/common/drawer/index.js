@@ -1,9 +1,8 @@
-import { Drawer } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
 import { drawerSelector } from "../../../redux/drawer/reducer";
 import { commonSelector } from "../../../redux/common/reducer";
 import { confirmChangeData } from "../../../ultis/function";
+import Layout from "./layout";
 const DrawerComponent = (props) => {
   const {
     title = "Basic Drawer",
@@ -33,27 +32,17 @@ const DrawerComponent = (props) => {
   };
   //end style
   return (
-    <Container style={containerStyle}>
-      {template}
-      <Drawer
-        title={title}
-        placement={placement}
-        closable={closable}
-        onClose={onClose}
-        open={openDrawer}
-        getContainer={false}
-      >
-        {children}
-      </Drawer>
-    </Container>
+    <Layout
+      containerStyle={containerStyle}
+      template={template}
+      title={title}
+      placement={placement}
+      closable={closable}
+      onClose={onClose}
+      openDrawer={openDrawer}
+      children={children}
+    />
   );
 };
-const Container = styled.div`
-  .ant-drawer-header-title {
-  }
-  .ant-drawer-content-wrapper {
-    width: 100% !important;
-    height: 100% !important;
-  }
-`;
+
 export default DrawerComponent;

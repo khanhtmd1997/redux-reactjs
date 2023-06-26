@@ -1,15 +1,15 @@
-import { COMMON } from "../../constants";
-import FormComponent from "../common/form";
-import InfoLayout from "./layout";
+import { COMMON } from "../../../constants";
+import FormComponent from "../../common/form";
 
-export default function FormInfoComponent(props) {
+export default function ModalInfoComponent(props) {
   const {
     form,
     loading,
     handleSubmitForm,
     handleCloseModal,
-    fieldFormInfo,
+    contentForm,
     stepModal,
+    data,
   } = props;
   return (
     <FormComponent
@@ -22,13 +22,10 @@ export default function FormInfoComponent(props) {
       }
       handleClose={handleCloseModal}
       textButtonClose="Close"
-      initialValues={{
-        email: "khanh@gmail.com",
-        fullName: "Nguyễn Văn Khánh",
-        birthDay: "1997-16-02",
-      }}
+      initialValues={data}
+      data={data}
     >
-      <InfoLayout field={fieldFormInfo} form={form} />
+      {contentForm()}
     </FormComponent>
   );
 }

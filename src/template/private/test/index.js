@@ -23,6 +23,7 @@ export default function TestTemplate(props) {
     setRemoveKey,
     setDataSource,
     onChangePagination,
+    isCreate,
   } = props;
 
   return (
@@ -63,6 +64,7 @@ export default function TestTemplate(props) {
           headerTable="Test table"
           isEditTable={false}
           isSelectType={false}
+          isCreate={isCreate}
         />
       </FormComponent>
     </Fragment>

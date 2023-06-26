@@ -5,7 +5,7 @@ import FormComponent from "../../../components/common/form";
 import { COMMON } from "../../../constants";
 
 export default function LoginPages(props) {
-  const { renderStep, onSubmitForm, step, setStep } = props;
+  const { renderStep, onSubmitForm, step, setStep, form } = props;
   return (
     <Container className="wrapper">
       <div className="wrapper">
@@ -17,9 +17,8 @@ export default function LoginPages(props) {
           />
         </div>
         <FormComponent
-          autoComplete="off"
-          scrollToFirstError
           onSubmitForm={onSubmitForm}
+          form={form}
           isButtonFooter
           textButton={
             step === COMMON.TWO
@@ -28,6 +27,11 @@ export default function LoginPages(props) {
               ? "Register"
               : "Login"
           }
+          initialValues={{
+            email: null,
+            password: null,
+            fullName: null,
+          }}
           buttonClass="btn mt-3"
         >
           {renderStep()}

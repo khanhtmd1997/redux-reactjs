@@ -424,6 +424,7 @@ export default function TestPages() {
             setRemoveKey={setRemoveKey}
             setDataSource={setDataSource}
             onChangePagination={onChangePagination}
+            isCreate
           />
         }
       >
@@ -432,7 +433,6 @@ export default function TestPages() {
           form={form2}
           handleCreateEditForm={handleCreateEditForm}
           handleClose={handleClose}
-          // setInitDataForm={setInitDataForm}
         />
       </DrawerComponent>
     </Fragment>

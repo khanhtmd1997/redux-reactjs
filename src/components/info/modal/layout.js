@@ -1,6 +1,6 @@
 import { Col, Form, Row } from "antd";
-import DatePickerComponent from "../common/datepicker";
-import InputComponent from "../common/input";
+import DatePickerComponent from "../../../components/common/datepicker";
+import InputComponent from "../../../components/common/input";
 
 export default function InfoLayout(props) {
   const { field, form } = props;
@@ -20,7 +20,15 @@ export default function InfoLayout(props) {
                 min: el?.valid.min,
                 message: `${el.label} is min ${el.valid.min} character`,
               },
-
+              el.name === "email"
+                ? {
+                    pattern: new RegExp(
+                      // eslint-disable-next-line no-useless-escape
+                      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+                    ),
+                    message: "Enter a valid email address!",
+                  }
+                : null,
               el.name === "confirmPassword"
                 ? ({ getFieldValue }) => ({
                     validator(_, value) {

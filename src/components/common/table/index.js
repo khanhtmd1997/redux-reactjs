@@ -1,11 +1,10 @@
-import { Collapse, Divider, Table, Button } from "antd";
+import { Button } from "antd";
 import React, { useEffect, useState } from "react";
-import SelectComponent from "../select";
 import { COMMON } from "../../../constants";
-import { CollapseTable } from "./style";
-import { PlusOutlined } from "@ant-design/icons";
-
-const { Panel } = Collapse;
+import { PlusCircleOutlined } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
+import { setDrawer } from "../../../redux/drawer/reducer";
+import Layout from "./layout";
 
 // // rowSelection object indicates the need for row selection
 // const rowSelection = {
@@ -52,7 +51,10 @@ export default function TableComponent(props) {
     isNotPagination = null,
     onChangePagination,
     headerTable = "Table",
+    isCreate = false,
   } = props;
+  console.log(isCreate);
+  const dispatch = useDispatch();
   const [selectionType, setSelectionType] = useState("checkbox");
   const [count, setCount] = useState(0);
   const [paginationOption, setPaginationOption] = useState(
@@ -120,73 +122,40 @@ export default function TableComponent(props) {
     // eslint-disable-next-line
   }, []);
 
+  //button create data
+  const genExtra = () => (
+    <Button
+      type="text"
+      icon={<PlusCircleOutlined />}
+      onClick={() => dispatch(setDrawer(true))}
+      style={{
+        color: "blue",
+      }}
+    />
+  );
+
   return (
-    <CollapseTable defaultActiveKey={["1"]}>
-      <Panel key={"1"} header={headerTable}>
-        <div className="panel-table">
-          {isSelectType ? (
-            <div className="select">
-              <SelectComponent
-                data={selectArrayType}
-                defaultValue={selectionType}
-                setValue={setSelectionType}
-              />
-            </div>
-          ) : null}
-
-          <div
-            className="add-row"
-            style={{
-              display: isEditTable ? "block" : "none",
-            }}
-          >
-            <Button onClick={handleAdd} type="primary" className="button">
-              <PlusOutlined />
-            </Button>
-            <Divider />
-          </div>
-
-          <Table
-            rowSelection={
-              rowSelection
-                ? selectionType
-                  ? {
-                      ...rowSelection,
-                      type: selectionType,
-                    }
-                  : rowSelection
-                : null
-            }
-            columns={columns}
-            dataSource={data}
-            expandable={expandable}
-            // components={components}
-            scroll={{
-              y: y,
-              x: x,
-            }}
-            onChange={onChangePagination}
-            pagination={
-              isNotPagination
-                ? null
-                : {
-                    total: totalData,
-                    showTotal: (total) => `Have ${total} record`,
-                    defaultPageSize: COMMON.PAGINATION_INDEX,
-                    defaultCurrent: COMMON.PAGINATION_SIZE,
-                    current: parseInt(
-                      pagination?.pageIndex ?? COMMON.PAGINATION_INDEX
-                    ),
-                    pageSize: parseInt(
-                      pagination?.pageSize ?? COMMON.PAGINATION_SIZE
-                    ),
-                    showSizeChanger: true,
-                    pageSizeOptions: paginationOption,
-                  }
-            }
-          />
-        </div>
-      </Panel>
-    </CollapseTable>
+    <Layout
+      headerTable={headerTable}
+      isCreate={isCreate}
+      genExtra={genExtra}
+      isSelectType={isSelectType}
+      selectArrayType={selectArrayType}
+      selectionType={selectionType}
+      setSelectionType={setSelectionType}
+      isEditTable={isEditTable}
+      handleAdd={handleAdd}
+      rowSelection={rowSelection}
+      columns={columns}
+      data={data}
+      expandable={expandable}
+      y={y}
+      x={x}
+      onChangePagination={onChangePagination}
+      isNotPagination={isNotPagination}
+      totalData={totalData}
+      pagination={pagination}
+      paginationOption={paginationOption}
+    />
   );
 }
